@@ -10,10 +10,12 @@ function Game(mainCanvas, bgCanvas) {
 	this.contentManager = new ContentManager("/Content");
 	this.surface = mainCanvas.getContext("2d");
 	this.self = this; // Just in case
+
 }
 
 Game._FPS = 60;
 Game._dt = 0.1;
+Game._time = 0;
 
 Game.prototype.init = function() {
 	this.resize();
@@ -21,6 +23,10 @@ Game.prototype.init = function() {
 
 	this.spriteTest = new MillenniumFalcon(this);
 	this.spriteTest.init();
+}
+
+Game.prototype.loadContent = function(contentManager) {
+	this.spriteTest.loadContent(contentManager);
 }
 
 Game.prototype.update = function(dt) {
@@ -38,6 +44,7 @@ Game.prototype.draw = function(surface) {
 
 Game.prototype.run = function() {
 	this.init();
+	this.loadContent(this.contentManager);
 	setInterval(this.update.bind(this, Game._dt), 1000 / Game._FPS);
 }
 
@@ -57,7 +64,15 @@ Game.prototype.handleKeyDown = function(e) {
 	case 81: // Q
 		this.spriteTest.turnYaw(-50);
 		break;
-
+	case 32: // Space
+		this.spriteTest.bullets.shoot();
+		break;
+	case 49: // 1
+		this.spriteTest.bullets.thread += 1; // TODO: tmp
+		break;
+	default:
+		console.log(e.keyCode);
+		break;
 	}
 }
 

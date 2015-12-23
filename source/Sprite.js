@@ -17,6 +17,9 @@ var Sprite = function (game) {
 Sprite.prototype.init = function() {
 }
 
+Sprite.prototype.loadContent = function(contentManager) {
+}
+
 Sprite.prototype.update = function(dt) {
 	this.physics.verlet(dt);
 	this.rotation = this.physics.yaw_pos;

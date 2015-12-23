@@ -7,8 +7,8 @@ var Vector2 = function(x, y) {
 Object.defineProperty(Vector2, "zero", { get: function () { return new Vector2(0, 0) } });
 
 // Warn for vec.X and vec.Y
-Object.defineProperty(Vector2.prototype, "X", { get: function () { console.warn("Use .x instead"); } });
-Object.defineProperty(Vector2.prototype, "Y", { get: function () { console.warn("Use .y instead"); } });
+Object.defineProperty(Vector2.prototype, "X", { get: function () { console.warn("Use .x instead"); return this.x} });
+Object.defineProperty(Vector2.prototype, "Y", { get: function () { console.warn("Use .y instead"); return this.y} });
 
 /* Class methods */
 Vector2.add = function(a, b) { return new Vector2(a.x + b.x, a.y + b.y); }
@@ -31,3 +31,8 @@ Vector2.prototype.mulScalar = function(k) { return Vector2.mulScalar(this, k); }
 Vector2.prototype.divScalar = function(k) { return Vector2.divScalar(this, k); }
 
 Vector2.prototype.magnitude = function() { return Vector2.magnitude(this); }
+
+Vector2.prototype.copy = function() {
+	return new Vector2(this.x, this.y);
+}
+
