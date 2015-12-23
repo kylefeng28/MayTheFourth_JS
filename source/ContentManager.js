@@ -7,3 +7,9 @@ ContentManager.prototype.loadImage = function(src) {
 	image.src = this.contentPath + src;
 	return image;
 }
+
+ContentManager.prototype.loadAudio = function(src) {
+	var audio = new Audio();
+	audio.src = this.contentPath + src;
+	return audio;
+}

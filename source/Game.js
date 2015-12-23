@@ -11,18 +11,25 @@ Game._FPS = 60;
 Game.prototype.init = function() {
 	this.resize();
 	console.log("Game initialized.");
+
+	// TODO: tmp
+	this.spriteTest = new MillenniumFalcon(this);
+	this.spriteTest.init();
 }
 
-Game.prototype.update = function() {
+Game.prototype.update = function(dt) {
+	dt = dt || 0.1;
+
 	// TODO: tmp
 	console.log("Update...");
-	var tmpXWingImg = this.contentManager.loadImage("Images/XWing.png");
-	this.surface.drawImage(tmpXWingImg, 0, 0);
+	this.spriteTest.update(dt);
+	this.spriteTest.draw(this.surface);
 }
+
+// TODO: draw function
 
 Game.prototype.run = function() {
 	this.init();
-	this.update();
 	setInterval(this.update.bind(this), 1000 / Game._FPS);
 }
 
@@ -33,7 +40,7 @@ Game.prototype.handleKeyUp = function(e) {
 }
 
 Game.prototype.fullscreen = function() {
-	requestFullscreen(canvasDiv);
+	requestFullscreen(document.querySelector("#game-container"));
 	this.resize();
 }
 

@@ -8,31 +8,27 @@ var Physics = function() {
 	/*public float*/ this.yaw_pos = 0.0;
 	/*public float*/ this.yaw_vel = 0.0;
 	/*public float*/ this.yaw_acc = 0.0;
+}   
 
-	function /*public void*/ euler() {
-		dt = dt || 1.0;
+Physics.prototype.euler = function(dt) {
+	this.vel = this.vel.add(Vector2.mulScalar(this.acc, dt)); 
+	this.pos = this.pos.add(Vector2.mulScalar(this.vel, dt)); 
 
-		vel += acc * dt; 
-		pos += vel * dt; 
+	this.yaw_vel += this.yaw_acc * dt; 
+	this.yaw_pos += this.yaw_vel * dt; 
+}   
 
-		yaw_vel += yaw_acc * dt; 
-		yaw_pos += yaw_vel * dt; 
-	}   
+Physics.prototype.verlet = function(dt) {
+	var /*Vector2*/ vel_old = this.vel;
+	this.vel = this.vel.add(Vector2.mulScalar(this.acc, dt)); 
+	this.pos = this.pos.add(Vector2.add(this.vel, vel_old).mulScalar(0.5 * dt)); 
 
-	function /*public void*/ verlet() {
-		dt = dt || 1.0;
+	var /*float*/ yaw_vel_old = this.yaw_vel;
+	this.yaw_vel += this.yaw_acc * dt; 
+	this.yaw_pos += (this.yaw_vel + yaw_vel_old) * 0.5 * dt; 
+}   
 
-		var /*Vector2*/ vel_old = vel;
-		vel += acc * dt; 
-		pos += (vel + vel_old) * 0.5 * dt; 
-
-		var /*float*/ yaw_vel_old = yaw_vel;
-		yaw_vel += yaw_acc * dt; 
-		yaw_pos += (yaw_vel + yaw_vel_old) * 0.5 * dt; 
-	}   
-
-	function /*public void*/ resetAcceleration() {
-		acc = Vector2.Zero;
-		yaw_acc = 0.0; 
-	}   
+function /*public void*/ resetAcceleration() {
+	this.acc = Vector2.zero;
+	this.yaw_acc = 0.0; 
 }   

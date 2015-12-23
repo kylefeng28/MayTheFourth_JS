@@ -6,13 +6,13 @@ body {
   background-color: #000000;
 }
 
-#canvasDiv {
+#game-container {
   width: 100%;
   height: 100%;
   background-color: #000000;
 }
 
-#canvasDiv:-webkit-full-screen {
+#game-container:-webkit-full-screen {
   width: 100%;
   height: 100%;
 }
