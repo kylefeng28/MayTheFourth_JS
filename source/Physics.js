@@ -28,7 +28,7 @@ Physics.prototype.verlet = function(dt) {
 	this.yaw_pos += (this.yaw_vel + yaw_vel_old) * 0.5 * dt; 
 }   
 
-function /*public void*/ resetAcceleration() {
+Physics.prototype.resetAcceleration = function() {
 	this.acc = Vector2.zero;
 	this.yaw_acc = 0.0; 
 }   

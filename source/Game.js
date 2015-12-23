@@ -1,4 +1,10 @@
-// TODO: GameState
+/* TODO
+ * GameState
+ * FPS counter
+ * FIXME Artifacts
+ * FIXME User controls
+ * Keyboard, IOManager
+ */
 
 function Game(mainCanvas, bgCanvas) {
 	this.contentManager = new ContentManager("/Content");
@@ -7,36 +13,56 @@ function Game(mainCanvas, bgCanvas) {
 }
 
 Game._FPS = 60;
+Game._dt = 0.1;
 
 Game.prototype.init = function() {
 	this.resize();
 	console.log("Game initialized.");
 
-	// TODO: tmp
 	this.spriteTest = new MillenniumFalcon(this);
 	this.spriteTest.init();
 }
 
 Game.prototype.update = function(dt) {
-	dt = dt || 0.1;
-
-	// TODO: tmp
-	console.log("Update...");
 	this.spriteTest.update(dt);
-	this.spriteTest.draw(this.surface);
+
+	this.draw(this.surface);
 }
 
-// TODO: draw function
+Game.prototype.draw = function(surface) {
+	// Clear the screen
+	surface.clearRect(0, 0, surface.width, surface.height);
+
+	this.spriteTest.draw(surface);
+}
 
 Game.prototype.run = function() {
 	this.init();
-	setInterval(this.update.bind(this), 1000 / Game._FPS);
+	setInterval(this.update.bind(this, Game._dt), 1000 / Game._FPS);
 }
 
 Game.prototype.handleKeyDown = function(e) {
+	this.spriteTest.physics.resetAcceleration();
+	// TODO: move to GameState
+	switch (e.keyCode) {
+	case 87: // W
+		this.spriteTest.forward(10);
+		break;
+	case 83: // S
+		this.spriteTest.forward(-10);
+		break;
+	case 69: // E
+		this.spriteTest.turnYaw(50);
+		break;
+	case 81: // Q
+		this.spriteTest.turnYaw(-50);
+		break;
+
+	}
 }
 
 Game.prototype.handleKeyUp = function(e) {
+	this.spriteTest.physics.resetAcceleration();
 }
 
 Game.prototype.fullscreen = function() {

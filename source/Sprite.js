@@ -25,51 +25,51 @@ Sprite.prototype.update = function(dt) {
 }
 
 Sprite.prototype.draw = function(/*CanvasContext*/ surface) {
-	/*Vector2*/ origin = this.getOrigin(this.texture);
 	// TODO: rotation, color, etc
 	// spriteBatch.Draw(texture, drawBox, null, color, rotation, origin, SpriteEffects.None, 0f);
-	surface.save();
+	surface.save(); // push
+	// Translate around origin
+	surface.translate(this.drawBox.x + this.drawBox.width / 2, this.drawBox.y + this.drawBox.height / 2);
 	surface.rotate(this.rotation);
-	// TODO: look in .cs file
-	surface.drawImage(this.texture, this.drawBox.x, this.drawBox.y, this.drawBox.width, this.drawBox.height);
-	surface.restore();
+	surface.drawImage(this.texture, -this.drawBox.width / 2, -this.drawBox.height / 2, this.drawBox.width, this.drawBox.height);
+	surface.restore(); // pop
 }
 
 Sprite.prototype.forward = function(dir) {
 	dir = dir || 1;
 
-	if (physics.vel.Length() < vel_max) {
-		physics.acc.X = (float) (Math.sign(dir) * acc_max * Math.Cos(physics.yaw_pos));
-		physics.acc.Y = (float) (Math.sign(dir) * acc_max * Math.Sin(physics.yaw_pos));
+	if (this.physics.vel.magnitude() < this.vel_max) {
+		this.physics.acc.x = /*(float)*/ (Math.sign(dir) * this.acc_max * Math.cos(this.physics.yaw_pos));
+		this.physics.acc.y = /*(float)*/ (Math.sign(dir) * this.acc_max * Math.sin(this.physics.yaw_pos));
 	}
 	else {
-		physics.acc.X = 0;
-		physics.acc.Y = 0;
+		this.physics.acc.x = 0;
+		this.physics.acc.y = 0;
 	}
 }
 
 Sprite.prototype.turnYaw = function(ang) {
 	ang = ang || 1;
 
-	physics.yaw_vel = (float) (MathHelper.toRadians(ang));
+	this.physics.yaw_vel = /*(float)*/ (MathHelper.toRadians(ang));
 }
 
 Sprite.prototype.roll = function(ang) {
 	ang = ang || 1;
 
-	physics.acc.X = (float) (ang * Math.cos(this.physics.yaw_pos + MathHelper.PiOver2));
-	physics.acc.Y = (float) (ang * Math.sin(this.physics.yaw_pos + MathHelper.PiOver2));
+	this.physics.acc.x = /*(float)*/ (ang * Math.cos(this.physics.yaw_pos + MathHelper.PiOver2));
+	this.physics.acc.y = /*(float)*/ (ang * Math.sin(this.physics.yaw_pos + MathHelper.PiOver2));
 }
 
 Sprite.prototype.friction = function() {
-	/*int*/ dir = Math.sign(this.physics.vel.X);
+	/*int*/ var dir = Math.sign(this.physics.vel.x);
 
-	if (Math.Abs(physics.vel.Length()) > 0) {
-		this.physics.vel *= 0.9;
+	if (Math.abs(this.physics.vel.magnitude()) > 0) {
+		this.physics.vel = this.physics.vel.mulScalar(0.9);
 	}
 
-	if (Math.Abs(physics.yaw_vel) > 0) {
-		physics.yaw_vel *= 0.9;
+	if (Math.abs(this.physics.yaw_vel) > 0) {
+		this.physics.yaw_vel *= 0.9;
 	}
 }
 
