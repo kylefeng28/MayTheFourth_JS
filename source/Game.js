@@ -7,7 +7,7 @@
  */
 
 function Game(mainCanvas, bgCanvas) {
-	this.contentManager = new ContentManager("/Content");
+	this.contentManager = new ContentManager("Content");
 	this.surface = mainCanvas.getContext("2d");
 	this.self = this; // Just in case
 
