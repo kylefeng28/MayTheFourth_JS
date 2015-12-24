@@ -37,7 +37,8 @@ Game.prototype.update = function(dt) {
 
 Game.prototype.draw = function(surface) {
 	// Clear the screen
-	surface.clearRect(0, 0, surface.width, surface.height);
+	surface.clearRect(0, 0, surface.width, surface.height); // why doesn't this work?
+	surface.canvas.width = surface.canvas.width; // force!
 
 	this.spriteTest.draw(surface);
 }
