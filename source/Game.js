@@ -32,6 +32,7 @@ Game.prototype.loadContent = function(contentManager) {
 Game.prototype.update = function(dt) {
 	this.spriteTest.update(dt);
 
+	Game._time += 1;
 	this.draw(this.surface);
 }
 
@@ -70,6 +71,7 @@ Game.prototype.handleKeyDown = function(e) {
 		break;
 	case 13: // Enter
 		this.spriteTest.bullets.thread += 1; // TODO: tmp
+		console.log("Thread: " + this.spriteTest.bullets.thread);
 		break;
 	default:
 		console.log(e.keyCode);

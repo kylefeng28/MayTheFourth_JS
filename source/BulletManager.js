@@ -151,7 +151,23 @@ BulletManager.prototype.shoot = function(surface) {
 
 					pos = this.sprite.physics.pos.copy();
 					pos.x += /*(float)*/ (this.sprite.texture.width / 2 * Math.cos(ang_pos - Game._time / 100.0));
-					pos.y += /*(float)*/ (this.sprite.texture.Width / 2 * Math.sin(ang_pos - Game._time / 100.0));
+					pos.y += /*(float)*/ (this.sprite.texture.width / 2 * Math.sin(ang_pos - Game._time / 100.0));
+
+					vel.x = /*(float)*/ (this.bullet_vel_max * Math.cos(ang_pos));
+					vel.y = /*(float)*/ (this.bullet_vel_max * Math.sin(ang_pos));
+
+					this.add(ang_pos, pos, vel, this.bulletTexture, this.bulletColor);
+
+				}
+				break;
+			}
+		case BulletThread.RainFromHeaven: { // TODO: add into BulletThread
+				for (var ang = 0; ang <= 360; ang += 360 / this.numBullets) {
+					ang_pos = this.sprite.physics.yaw_pos + MathHelper.toRadians(ang);
+
+					pos = this.sprite.physics.pos.copy();
+					pos.x += /*(float)*/ (this.sprite.texture.width / 2 * Math.cos(ang_pos));
+					pos.y = 0;
 
 					vel.x = /*(float)*/ (this.bullet_vel_max * Math.cos(ang_pos));
 					vel.y = /*(float)*/ (this.bullet_vel_max * Math.sin(ang_pos));
@@ -162,10 +178,10 @@ BulletManager.prototype.shoot = function(surface) {
 				break;
 			}
 		case BulletThread.Sakura: {
-				if (this.moodLight == null) {
+				if (!this.moodLight || this.moodLight == null) {
 					// TODO: add moodlight
 					// this.moodLight = new MoodLight(Color.Green); // Green makes cool firework patterns!
-					this.moodlight = { color: "#ffffff" };
+					this.moodLight = { color: "#ffffff" };
 				}
 
 				for (var ang = 0; ang <= 360; ang += 360 / 5) {
@@ -205,7 +221,7 @@ BulletManager.prototype.add = function(ang_pos, pos, vel, texture, color) {
 
 	bullet.physics.yaw_pos = ang_pos;
 	bullet.physics.pos = pos.copy();
-	bullet.physics.vel = vel;
+	bullet.physics.vel = vel.copy();
 	bullet.texture = texture;
 	bullet.baseColor = color;
 
