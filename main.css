@@ -6,6 +6,10 @@ body {
   background-color: #000000;
 }
 
+.instructions {
+  color: #ffffff;
+}
+
 #game-container {
   width: 100%;
   height: 100%;

@@ -58,16 +58,16 @@ Game.prototype.handleKeyDown = function(e) {
 	case 83: // S
 		this.spriteTest.forward(-10);
 		break;
-	case 69: // E
-		this.spriteTest.turnYaw(50);
-		break;
-	case 81: // Q
+	case 65: // A
 		this.spriteTest.turnYaw(-50);
+		break;
+	case 68: // D
+		this.spriteTest.turnYaw(50);
 		break;
 	case 32: // Space
 		this.spriteTest.bullets.shoot();
 		break;
-	case 49: // 1
+	case 13: // Enter
 		this.spriteTest.bullets.thread += 1; // TODO: tmp
 		break;
 	default:
