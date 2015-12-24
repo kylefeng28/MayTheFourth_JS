@@ -1,9 +1,8 @@
 /* TODO
  * GameState
  * FPS counter
- * FIXME Artifacts
- * FIXME User controls
  * Keyboard, IOManager
+ * Camera
  */
 
 function Game(mainCanvas, bgCanvas) {
@@ -23,6 +22,9 @@ Game.prototype.init = function() {
 
 	this.spriteTest = new MillenniumFalcon(this);
 	this.spriteTest.init();
+	// until I get a camera working
+	this.spriteTest.physics.pos.x = this.surface.canvas.width / 2;
+	this.spriteTest.physics.pos.y = this.surface.canvas.height / 2;
 }
 
 Game.prototype.loadContent = function(contentManager) {
