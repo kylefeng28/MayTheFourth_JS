@@ -15,9 +15,13 @@ List.prototype.add = function(elem) {
 List.prototype.remove = function(elem) {
 	for (var i in this.data) {
 		if (elem == i) {
-			return this.data.splice(i, 1)[0];
+			return this.splice(i, 1)[0];
 		}
 	}
+}
+
+List.prototype.removeAt = function(i) {
+	return this.data.splice(i, 1)[0];
 }
 
 /**

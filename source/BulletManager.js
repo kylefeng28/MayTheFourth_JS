@@ -33,15 +33,15 @@ BulletManager.prototype.loadContent = function(contentManager) {
 }
 
 BulletManager.prototype.update = function(dt) {
-	this.bulletList.reverse().forEach(function(/*Bullet*/ bullet) {
+	this.bulletList.reverse().forEach(function(/*Bullet*/ bullet, i) {
 		if (bullet.enabled) {
 			bullet.update(dt);
 		}
 		else {
-			console.log()
-			// this.bulletList.remove(bullet); // FIXME undefined TypeError
+			this.bulletList.removeAt(i);
+			delete bullet;
 		}
-	});
+	}.bind(this)); // Don't forget this
 
 	this.shootTimer--;
 }
