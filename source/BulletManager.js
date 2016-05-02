@@ -4,6 +4,7 @@ var BulletManager = function(game, sprite) {
 	/*public Sprite*/ this.sprite = sprite;
 
 	/* public BulletThread*/ this.thread = BulletThread.Linear;
+	/* public int*/ this.thread_max = Object.keys(BulletThread).length;
 	/* private List<Bullet>*/ this.bulletList = new List();
 
 	// public MoodLight moodLight;
@@ -229,7 +230,9 @@ BulletManager.prototype.add = function(ang_pos, pos, vel, texture, color) {
 }
 
 
-
+BulletManager.prototype.nextThread = function() {
+	this.thread = (this.thread + 1) % this.thread_max;
+}
 
 
 /*******************************************************************************************/

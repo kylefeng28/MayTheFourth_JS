@@ -1,11 +1,12 @@
 /* TODO
  * GameState
  * FPS counter
- * Keyboard, IOManager
+ * Keyboard, IOManager. switch to my keyboard.js
  * Camera
- * FIXME BulletThread counter
+ * FIXME BulletThread counter. Make more efficient
  * status messages HUD
  * keyEvent_old
+ * Mouse following
  */
 
 function Game(mainCanvas, bgCanvas) {
@@ -25,7 +26,7 @@ Game.prototype.init = function() {
 
 	this.spriteTest = new MillenniumFalcon(this);
 	this.spriteTest.init();
-	// until I get a camera working
+	// tmp until I get a camera working
 	this.spriteTest.physics.pos.x = this.surface.canvas.width / 2;
 	this.spriteTest.physics.pos.y = this.surface.canvas.height / 2;
 }
@@ -77,10 +78,6 @@ Game.prototype.handleKeyEvent = function(keyEvent) {
 		case 32: // Space
 			this.spriteTest.bullets.shoot();
 			break;
-		case 13: // Enter
-			this.spriteTest.bullets.thread += 1; // TODO: tmp
-			console.log("Thread: " + this.spriteTest.bullets.thread);
-			break;
 		default:
 			console.log(keyEvent.keyCode); // TODO: tmp
 			break;
@@ -93,6 +90,17 @@ Game.prototype.handleKeyEvent = function(keyEvent) {
 Game.prototype.handleKeyDown = function(e) {
 	this.isKeyDown = true;
 	this.keyEvent = e;
+
+	switch(e.keyCode) {
+		case 32: // Space
+			e.preventDefault();
+			break;
+		case 13: // Enter
+			this.spriteTest.bullets.nextThread();
+			console.log("Thread: " + this.spriteTest.bullets.thread);
+			this.displayText("Thread: " + this.spriteTest.bullets.thread);
+			break;
+	}
 }
 
 Game.prototype.handleKeyUp = function(e) {
@@ -106,6 +114,10 @@ Game.prototype.fullscreen = function() {
 }
 
 Game.prototype.resize = function() {
-	mainCanvas.width = window.innerWidth;
-	mainCanvas.height = window.innerHeight
+	_mainCanvas.width = window.innerWidth;
+	_mainCanvas.height = window.innerHeight
+}
+
+Game.prototype.displayText = function(text) {
+	_msgBox.innerHTML = text;
 }
