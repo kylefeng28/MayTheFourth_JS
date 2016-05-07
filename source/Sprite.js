@@ -85,6 +85,11 @@ Sprite.prototype.friction = function() {
 	/*int*/ var width = Math.floor(texture.width * scale);
 	/*int*/ var height = Math.floor(texture.height * scale);
 	/*Rectangle*/ var rect = new Rectangle(x, y, width, height);
+
+	// TODO: this probably should go in init
+	this.width = width;
+	this.height = height;
+
 	return rect;
 }
 

@@ -4,7 +4,7 @@ var BulletManager = function(game, sprite) {
 	/*public Sprite*/ this.sprite = sprite;
 
 	/* public BulletThread*/ this.thread = BulletThread.Linear;
-	/* public int*/ this.thread_max = Object.keys(BulletThread).length;
+	/* public int*/ this.thread_max = Object.keys(BulletThread).length / 2; // compensate for double of information
 	/* private List<Bullet>*/ this.bulletList = new List();
 
 	// public MoodLight moodLight;
@@ -74,8 +74,8 @@ BulletManager.prototype.shoot = function(surface) {
 				ang_pos = this.sprite.physics.yaw_pos;
 
 				pos = this.sprite.physics.pos.copy();
-				pos.x += /*(float)*/ (this.sprite.texture.width / 2 * Math.cos(ang_pos));
-				pos.y += /*(float)*/ (this.sprite.texture.width / 2 * Math.sin(ang_pos));
+				pos.x += /*(float)*/ (this.sprite.width / 2 * Math.cos(ang_pos));
+				pos.y += /*(float)*/ (this.sprite.width / 2 * Math.sin(ang_pos));
 
 				vel.x = /*(float)*/ (this.bullet_vel_max * Math.cos(ang_pos));
 				vel.y = /*(float)*/ (this.bullet_vel_max * Math.sin(ang_pos));
@@ -105,16 +105,16 @@ BulletManager.prototype.shoot = function(surface) {
 					ang_pos = this.sprite.physics.yaw_pos + MathHelper.toRadians(ang);
 
 					pos = this.sprite.physics.pos.copy();
-					pos.x += /*(float)*/ (this.sprite.texture.width / 2 * Math.cos(ang_pos));
-					pos.y += /*(float)*/ (this.sprite.texture.width / 2 * Math.sin(ang_pos));
+					pos.x += /*(float)*/ (this.sprite.width / 2 * Math.cos(ang_pos));
+					pos.y += /*(float)*/ (this.sprite.width / 2 * Math.sin(ang_pos));
 					vel.x = /*(float)*/ (this.bullet_vel_max * Math.sin(ang_pos));
 					vel.y = /*(float)*/ (this.bullet_vel_max * Math.sin(ang_pos));
 
 					this.add(ang_pos, pos, vel, this.bulletTexture, this.bulletColor);
 
 					pos = this.sprite.physics.pos.copy();
-					pos.x += /*(float)*/ (this.sprite.texture.width / 2 * Math.cos(ang_pos));
-					pos.y += /*(float)*/ (this.sprite.texture.width / 2 * Math.sin(ang_pos));
+					pos.x += /*(float)*/ (this.sprite.width / 2 * Math.cos(ang_pos));
+					pos.y += /*(float)*/ (this.sprite.width / 2 * Math.sin(ang_pos));
 					vel.x = /*(float)*/ (this.bullet_vel_max * Math.cos(ang_pos));
 					vel.y = /*(float)*/ (-this.bullet_vel_max * Math.cos(ang_pos));
 
@@ -128,16 +128,16 @@ BulletManager.prototype.shoot = function(surface) {
 					ang_pos = this.sprite.physics.yaw_pos + MathHelper.toRadians(ang);
 
 					pos = this.sprite.physics.pos.copy();
-					pos.x += /*(float)*/ (this.sprite.texture.width / 2 * Math.cos(ang_pos));
-					pos.y += /*(float)*/ (this.sprite.texture.width / 2 * Math.sin(ang_pos));
+					pos.x += /*(float)*/ (this.sprite.width / 2 * Math.cos(ang_pos));
+					pos.y += /*(float)*/ (this.sprite.width / 2 * Math.sin(ang_pos));
 					vel.x = /*(float)*/ (-this.bullet_vel_max * Math.cos(ang_pos));
 					vel.y = /*(float)*/ (this.bullet_vel_max * Math.sin(ang_pos));
 
 					this.add(ang_pos, pos, vel, this.bulletTexture, this.bulletColor);
 
 					pos = this.sprite.physics.pos.copy();
-					pos.x += /*(float)*/ (this.sprite.texture.width / 2 * Math.cos(ang_pos));
-					pos.y += /*(float)*/ (this.sprite.texture.width / 2 * Math.sin(ang_pos));
+					pos.x += /*(float)*/ (this.sprite.width / 2 * Math.cos(ang_pos));
+					pos.y += /*(float)*/ (this.sprite.width / 2 * Math.sin(ang_pos));
 					vel.x = /*(float)*/ (this.bullet_vel_max * Math.cos(ang_pos));
 					vel.y = /*(float)*/ (-this.bullet_vel_max * Math.sin(ang_pos));
 
@@ -245,4 +245,10 @@ BulletManager.prototype.nextThread = function() {
 	DoubleEllipse: 3,
 	Spiral: 4,
 	Sakura: 5,
+	RainFromHeaven: 6,
 }
+
+// Associate indices with names
+Object.keys(BulletThread).forEach(function(key, i) {
+	BulletThread[i] = key;
+}); 

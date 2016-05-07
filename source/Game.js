@@ -1,11 +1,10 @@
 /* TODO
  * GameState
  * FPS counter
- * Keyboard, IOManager. switch to my keyboard.js
+ * IOManager. encapsulate Keyboard.js?
  * Camera
  * FIXME BulletThread counter. Make more efficient
  * status messages HUD
- * keyEvent_old
  * Mouse following
  */
 
@@ -29,6 +28,8 @@ Game.prototype.init = function() {
 	// tmp until I get a camera working
 	this.spriteTest.physics.pos.x = this.surface.canvas.width / 2;
 	this.spriteTest.physics.pos.y = this.surface.canvas.height / 2;
+
+	Game._kb = new Keyboard();
 }
 
 Game.prototype.loadContent = function(contentManager) {
@@ -38,7 +39,7 @@ Game.prototype.loadContent = function(contentManager) {
 Game.prototype.update = function(dt) {
 	Game._time += 1;
 
-	this.handleKeyEvent(this.keyEvent);
+	this.handleKeyEvent();
 	this.spriteTest.update(dt);
 
 	this.draw(this.surface);
@@ -49,6 +50,8 @@ Game.prototype.draw = function(surface) {
 	surface.clearRect(0, 0, surface.width, surface.height); // why doesn't this work?
 	surface.canvas.width = surface.canvas.width; // force!
 
+	this.displayText("Thread: " + BulletThread[this.spriteTest.bullets.thread] + " (" + this.spriteTest.bullets.thread + ")");
+
 	this.spriteTest.draw(surface);
 }
 
@@ -58,29 +61,24 @@ Game.prototype.run = function() {
 	setInterval(this.update.bind(this, Game._dt), 1000 / Game._FPS);
 }
 
-Game.prototype.handleKeyEvent = function(keyEvent) {
-	// TODO: move to GameState
+Game.prototype.handleKeyEvent = function() {
+	// TODO: move to GameState?
 	
-	if (this.isKeyDown) {
-		switch (keyEvent.keyCode) {
-		case 87: // W
+	if (Game._kb.lastKey) {
+		if (Game._kb.isKeyDown("w")) {
 			this.spriteTest.forward(10);
-			break;
-		case 83: // S
+		}
+		if (Game._kb.isKeyDown("s")) {
 			this.spriteTest.forward(-10);
-			break;
-		case 65: // A
+		}
+		if (Game._kb.isKeyDown("a")) {
 			this.spriteTest.turnYaw(-50);
-			break;
-		case 68: // D
+		}
+		if (Game._kb.isKeyDown("d")) {
 			this.spriteTest.turnYaw(50);
-			break;
-		case 32: // Space
+		}
+		if (Game._kb.isKeyDown("Space")) {
 			this.spriteTest.bullets.shoot();
-			break;
-		default:
-			console.log(keyEvent.keyCode); // TODO: tmp
-			break;
 		}
 	} else {
 		this.spriteTest.physics.resetAcceleration();
@@ -88,8 +86,7 @@ Game.prototype.handleKeyEvent = function(keyEvent) {
 }
 
 Game.prototype.handleKeyDown = function(e) {
-	this.isKeyDown = true;
-	this.keyEvent = e;
+	Game._kb.handleKeyDown(e);
 
 	switch(e.keyCode) {
 		case 32: // Space
@@ -97,15 +94,12 @@ Game.prototype.handleKeyDown = function(e) {
 			break;
 		case 13: // Enter
 			this.spriteTest.bullets.nextThread();
-			console.log("Thread: " + this.spriteTest.bullets.thread);
-			this.displayText("Thread: " + this.spriteTest.bullets.thread);
 			break;
 	}
 }
 
 Game.prototype.handleKeyUp = function(e) {
-	this.isKeyDown = false;
-	this.keyEvent = e;
+	Game._kb.handleKeyUp(e);
 }
 
 Game.prototype.fullscreen = function() {
